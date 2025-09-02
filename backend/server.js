@@ -20,7 +20,7 @@ app.use(cookieParser());
 app.use(cors({origin: process.env.CLIENT_URL, credentials: true}))
 
 app.get("/", (req, res) => {
-  res.send("Subscribe To My Channel!");
+  res.send("Hi It Worked!");
 });
 
 app.post("/api/signup", async (req, res) => {
