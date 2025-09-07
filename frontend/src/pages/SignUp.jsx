@@ -39,7 +39,7 @@ const SignUp = () => {
 
                 {error && <p className='text-red-500'>{error}</p>}
 
-                <button type='submit' disabled={isLoading} className='w-full bg-[#e50914] text-white py-2 rounded text-base hover:opacity-90 cursor-pointer'>
+                <button type='submit' disabled={isLoading} className='w-full bg-gradient-to-r from-yellow-500 to-orange-500 text-white py-2 rounded text-base hover:opacity-90 cursor-pointer'>
                     Sign Up
                 </button>
             </form>

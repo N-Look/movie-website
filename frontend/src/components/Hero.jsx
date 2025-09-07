@@ -44,7 +44,7 @@ const Hero = () => {
           <Bookmark className="mr-2 w-4 h-5 md:w-5 md:h-5" /> Save for Later
         </button>
         <Link to={`/movie/${movie.id}`}>
-        <button className="flex justify-center items-center bg-[#e50914]  text-white py-3 px-4 rounded-full cursor-pointer text-sm md:text-base">
+<button className="flex justify-center items-center bg-gradient-to-r from-yellow-500 to-orange-500  text-white py-3 px-4 rounded-full cursor-pointer text-sm md:text-base">
           <Play className="mr-2 w-4 h-5 md:w-5 md:h-5" /> Watch Now
         </button>
         </Link>

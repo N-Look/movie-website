@@ -27,7 +27,7 @@ const Navbar = () => {
         <img
           src={Logo}
           alt="Logo"
-          className="w-24 cursor-pointer brightness-125"
+          className="w-50 cursor-pointer brightness-125"
         />
       </Link>
 
@@ -52,7 +52,7 @@ const Navbar = () => {
         </div>
     
         <Link to={user ? "ai-recommendations" : "signin"}>
-          <button className="bg-[#e50914] px-5 py-2 text-white cursor-pointer">
+          <button className="bg-gradient-to-r from-yellow-500 to-orange-500 px-5 py-2 text-white cursor-pointer">
             Get AI Movie Picks
           </button>
         </Link>

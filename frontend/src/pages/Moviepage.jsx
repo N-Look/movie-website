@@ -90,7 +90,7 @@ const Moviepage = () => {
               to={`https://www.youtube.com/watch?v=${trailerKey}`}
               target="_blank"
             >
-              <button className="flex justify-center items-center bg-[#e50914]  text-white py-3 px-4 rounded-full cursor-pointer text-sm md:text-base mt-2 md:mt-4">
+              <button className="flex justify-center items-center bg-gradient-to-r from-yellow-500 to-orange-500 text-white py-3 px-4 rounded-full cursor-pointer text-sm md:text-base mt-2 md:mt-4">
                 <Play className="mr-2 w-4 h-5 md:w-5 md:h-5" /> Watch Now
               </button>
             </Link>
