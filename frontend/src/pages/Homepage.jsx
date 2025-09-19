@@ -7,7 +7,9 @@ const Homepage = () => {
   return (
     <div className='p-5'>
         <Hero />
-        <CardList title="Now Playing" category="now_playing" />
+        <div className="-mt-4">
+          <CardList title="Now Playing" category="now_playing" />
+        </div>
         <CardList title="Top Rated" category="top_rated" />
         <CardList title="Popular" category="popular" />
         <CardList title="Upcoming" category="upcoming" />

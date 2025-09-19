@@ -32,15 +32,18 @@ const Hero = () => {
     return <p>Loading...</p>;
   }
   return (
-    <div className="text-white relative">
-      <img
-        src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`}
-        alt="bg-img"
-        className="w-full rounded-2xl h-[480px] object-center object-cover"
-      />
+    <div className="relative w-screen -mx-5 -mt-5">
+      <div className="relative">
+        <img
+          src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`}
+          alt="bg-img"
+          className="w-screen h-[480px] object-cover object-center"
+        />
+        <div className="absolute bottom-0 left-0 right-0 h-3/4 bg-gradient-to-t from-[#181818] via-[#18181880] to-transparent"></div>
+      </div>
 
       <div className="flex space-x-2 md:space-x-4 absolute bottom-3 left-4 md:bottom-8 md:left-10 font-medium">
-        <button className="flex justify-center items-center bg-white  hover:bg-gray-200 text-[#e50914] py-3 px-4 rounded-full cursor-pointer text-sm md:text-base">
+        <button className="flex justify-center items-center bg-white  hover:bg-gray-200 text-[#ff5100] py-3 px-4 rounded-full cursor-pointer text-sm md:text-base">
           <Bookmark className="mr-2 w-4 h-5 md:w-5 md:h-5" /> Save for Later
         </button>
         <Link to={`/movie/${movie.id}`}>
