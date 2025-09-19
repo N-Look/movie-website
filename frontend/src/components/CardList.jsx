@@ -31,7 +31,7 @@ useEffect(() => {
                 <SwiperSlide key={index} className="max-w-72">
                     <Link to={`/movie/${item.id}`}>
                     <img 
-                    src={`https://image.tmdb.org/t/p/w500/${item.backdrop_path}`} 
+                    src={item.poster_path ? `https://image.tmdb.org/t/p/w500${item.poster_path}` : item.backdrop_path ? `https://image.tmdb.org/t/p/w500${item.backdrop_path}` : 'https://via.placeholder.com/500x750.png?text=No+Image'} 
                     alt="" 
                     className='h-44 w-full object-center object-cover'
                     />
