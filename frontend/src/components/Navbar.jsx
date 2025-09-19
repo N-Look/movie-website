@@ -234,14 +234,14 @@ const Navbar = () => {
         </div>
     
         <Link to={user ? "ai-recommendations" : "signin"}>
-          <button className="bg-gradient-to-r from-yellow-500 to-orange-500 px-5 py-2 text-white cursor-pointer">
+          <button className="bg-gradient-to-r from-yellow-500 to-orange-500 px-5 py-2 rounded-[8px] text-white cursor-pointer">
             Get AI Movie Picks
           </button>
         </Link>
 
         {!user ? (
           <Link to={"/signin"}>
-            <button className="border border-[#333333] py-2 px-4 cursor-pointer">
+            <button className="border border-[#333333] rounded-[8px] py-2 px-4 cursor-pointer">
               Sign In
             </button>
           </Link>
