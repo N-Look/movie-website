@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router';
 import { Play, Star, Calendar } from 'lucide-react';
 
-const MovieGrid = ({ title, category, apiEndpoint, showTitle = true }) => {
+const MovieGrid = ({ title, category, apiEndpoint, showTitle = true, mediaType = 'movie' }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 
   // ✅ Replace with your TMDb v3 API key
-  const API_KEY = '956d7752149f244fb05c521f02b22067';
+  const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
   const fetchData = async (pageNum = 1, append = false) => {
     try {
@@ -17,7 +17,7 @@ const MovieGrid = ({ title, category, apiEndpoint, showTitle = true }) => {
 
       const url = apiEndpoint.includes('?')
         ? `${apiEndpoint}&api_key=${API_KEY}&page=${pageNum}`
-        : `${apiEndpoint}?api_key=${API_KEY}&page=${pageNum}`;
+        : `${apiEndpoint}?api_key=${API_KEY}&page=${pageNum}`; //This is a duplicate and will not be replaced
 
       const response = await fetch(url);
 
@@ -89,13 +89,13 @@ const MovieGrid = ({ title, category, apiEndpoint, showTitle = true }) => {
               key={item.id}
               className="bg-[#232323] rounded-lg overflow-hidden hover:scale-105 transition-transform duration-300 group"
             >
-              <Link to={`/movie/${item.id}`}>
+              <Link to={`/${mediaType === 'tv' ? 'tv' : 'movie'}/${item.id}`}>
                 <div className="relative group">
                   <img
                     src={
                       imageUrl
                     }
-                    alt={item.title || item.name || 'Movie/Show'}
+                    alt={item.title || item.name || mediaType === 'tv' ? 'TV Show' : 'Movie'}
                     className="w-full h-64 md:h-80 object-cover transition duration-300 group-hover:brightness-50"
                     onError={(e) => {
                       e.currentTarget.src =

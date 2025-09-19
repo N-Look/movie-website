@@ -12,11 +12,12 @@ export const useAuthStore = create((set) => ({
   error: null,
   message: null,
   fetchingUser: true,
+  authMessage: null,
 
   // functions
 
   signup: async (username, email, password) => {
-    set({ isLoading: true, message: null });
+    set({ isLoading: true, message: null, authMessage: "Signing up..." });
 
     try {
       const response = await axios.post(`${API_URL}/signup`, {
@@ -25,19 +26,20 @@ export const useAuthStore = create((set) => ({
         password,
       });
 
-      set({ user: response.data.user, isLoading: false });
+      set({ user: response.data.user, isLoading: false, authMessage: null });
     } catch (error) {
       set({
         isLoading: false,
         error: error.response.data.message || "Error Signing up",
+        authMessage: null,
       });
 
       throw error;
     }
   },
 
-    login: async (username, password) => {
-    set({ isLoading: true, message: null, error: null });
+  login: async (username, password) => {
+    set({ isLoading: true, message: null, error: null, authMessage: "Logging in..." });
 
     try {
       const response = await axios.post(`${API_URL}/login`, {
@@ -51,6 +53,7 @@ export const useAuthStore = create((set) => ({
         user,
         message,
         isLoading: false,
+        authMessage: null,
       });
 
       return { user, message };
@@ -58,6 +61,7 @@ export const useAuthStore = create((set) => ({
       set({
         isLoading: false,
         error: error.response.data.message || "Error logging in",
+        authMessage: null,
       });
 
       throw error;
@@ -65,25 +69,25 @@ export const useAuthStore = create((set) => ({
   },
 
   fetchUser: async () => {
-    set({ fetchingUser: true, error: null });
+    set({ fetchingUser: true, error: null, authMessage: "Fetching user..." });
 
     try {
       const response = await axios.get(`${API_URL}/fetch-user`);
-      set({ user: response.data.user, fetchingUser: false });
+      set({ user: response.data.user, fetchingUser: false, authMessage: null });
     } catch (error) {
       set({
         fetchingUser: false,
         error: null,
         user: null,
+        authMessage: null,
       });
 
       throw error;
     }
   },
-  
 
   logout: async () => {
-    set({ isLoading: true, error: null, message: null });
+    set({ isLoading: true, error: null, message: null, authMessage: "Logging out..." });
 
     try {
       const response = await axios.post(`${API_URL}/logout`);

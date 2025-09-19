@@ -1,47 +1,57 @@
 import { Route, Routes } from "react-router";
 import Navbar from "./components/Navbar";
-import Homepage from "./pages/Homepage";
-import Moviepage from "./pages/Moviepage";
-import SignIn from "./pages/SignIn";
-import SignUp from "./pages/SignUp";
-import {Toaster} from "react-hot-toast"
+import { Toaster } from "react-hot-toast";
 import { useAuthStore } from "./store/authStore";
-import { useEffect } from "react";
-import AIRecommendations from "./pages/AIRecommendations";
-import TvShowsPage from "./pages/TvShowsPage";
-import MoviesPage from "./pages/MoviesPage";
-import AnimePage from "./pages/AnimePage";
-import TopRatedPage from "./pages/TopRatedPage";
-import NewPopularPage from "./pages/NewPopularPage";
-import UpcomingPage from "./pages/UpcomingPage";
+import { useEffect, lazy, Suspense } from "react";
+
+const Homepage = lazy(() => import("./pages/Homepage"));
+const Moviepage = lazy(() => import("./pages/Moviepage"));
+const SignIn = lazy(() => import("./pages/SignIn"));
+const SignUp = lazy(() => import("./pages/SignUp"));
+const AIRecommendations = lazy(() => import("./pages/AIRecommendations"));
+const TvShowsPage = lazy(() => import("./pages/TvShowsPage"));
+const TvShowPage = lazy(() => import("./pages/TvShowPage"));
+const MoviesPage = lazy(() => import("./pages/MoviesPage"));
+const AnimePage = lazy(() => import("./pages/AnimePage"));
+const TopRatedPage = lazy(() => import("./pages/TopRatedPage"));
+const PopularPage = lazy(() => import("./pages/PopularPage"));
+const UpcomingPage = lazy(() => import("./pages/UpcomingPage"));
 
 const App = () => {
-  const {fetchUser, fetchingUser} = useAuthStore();
+  const { fetchUser, fetchingUser, authMessage } = useAuthStore();
 
   useEffect(() => {
     fetchUser()
   }, [fetchUser])
 
-  if(fetchingUser){
-    return <p className="text-[#e50914]">Loading...</p>
+  if (fetchingUser) {
+    return (
+      <div className="flex flex-col justify-center items-center h-screen bg-black">
+        <div className="w-16 h-16 border-4 border-dashed rounded-full animate-spin border-[#e50914]"></div>
+        <p className="text-white text-lg mt-4">{authMessage || 'Loading...'}</p>
+      </div>
+    );
   }
   return (
     <div>
       <Toaster/>
       <Navbar />
-      <Routes>
-        <Route path={'/'} element={<Homepage />} />
-        <Route path={'/movie/:id'} element={<Moviepage />} />
-        <Route path={'/signin'} element={<SignIn />} />
-        <Route path={'/signup'} element={<SignUp />} />
-        <Route path={'/ai-recommendations'} element={<AIRecommendations />} />
-        <Route path={'/tv-shows'} element={<TvShowsPage />} />
-        <Route path={'/movies'} element={<MoviesPage />} />
-        <Route path={'/anime'} element={<AnimePage />} />
-        <Route path={'/top-rated'} element={<TopRatedPage />} />
-        <Route path={'/new-popular'} element={<NewPopularPage />} />
-        <Route path={'/upcoming'} element={<UpcomingPage />} />
-      </Routes>
+      <Suspense fallback={<div className="flex justify-center items-center h-screen"><p className="text-[#e50914]">Loading...</p></div>}>
+        <Routes>
+          <Route path={'/'} element={<Homepage />} />
+          <Route path={'/movie/:id'} element={<Moviepage />} />
+          <Route path={'/signin'} element={<SignIn />} />
+          <Route path={'/signup'} element={<SignUp />} />
+          <Route path={'/ai-recommendations'} element={<AIRecommendations />} />
+          <Route path={'/tv/:id'} element={<TvShowPage />} />
+          <Route path={'/tv-shows'} element={<TvShowsPage />} />
+          <Route path={'/movies'} element={<MoviesPage />} />
+          <Route path={'/anime'} element={<AnimePage />} />
+          <Route path={'/top-rated'} element={<TopRatedPage />} />
+          <Route path={'/popular'} element={<PopularPage />} />
+          <Route path={'/upcoming'} element={<UpcomingPage />} />
+        </Routes>
+      </Suspense>
     </div>
   )
 }

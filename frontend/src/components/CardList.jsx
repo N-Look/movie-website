@@ -10,7 +10,7 @@ const options = {
   method: 'GET',
   headers: {
     accept: 'application/json',
-    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5NTZkNzc1MjE0OWYyNDRmYjA1YzUyMWYwMmIyMjA2NyIsIm5iZiI6MTc1NjcwMjI2Ni4zNTksInN1YiI6IjY4YjUyNjNhNWMzMTFkODIyMDNjZDJjNyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.bRP4t5hi2rDThNsS4ly3iN6mjFgR9s3wwvcNnJruIec'
+    Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_TOKEN}`
   }
 };
 

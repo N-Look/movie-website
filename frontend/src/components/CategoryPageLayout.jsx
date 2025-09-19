@@ -7,7 +7,8 @@ const CategoryPageLayout = ({
   category, 
   apiEndpoint, 
   showHero = true,
-  heroImage = null 
+  heroImage = null,
+  mediaType = 'movie'
 }) => {
   return (
     <div className="min-h-screen bg-[#181818] text-white">
@@ -42,6 +43,7 @@ const CategoryPageLayout = ({
           title={title}
           category={category}
           apiEndpoint={apiEndpoint}
+          mediaType={mediaType}
         />
       </div>
     </div>

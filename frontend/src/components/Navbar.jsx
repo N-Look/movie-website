@@ -38,8 +38,7 @@ const Navbar = () => {
       method: "GET",
       headers: {
         accept: "application/json",
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5NTgzMDFlZGQ2MGEzN2Y3NDlmMzhlNGFmMTJjZDE3YSIsIm5iZiI6MTc0NTQxNjIyNS44NzY5OTk5LCJzdWIiOiI2ODA4ZjAyMTI3NmJmNjRlNDFhYjY0ZWUiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.NA_LMt6-MUBLAvxMRkZtBoUif4p9YQ6aYZo-lv4-PUE",
+        Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_TOKEN}`,
       },
     };
 
@@ -117,22 +116,22 @@ const Navbar = () => {
         </li>
         <li>
           <Link 
-            to="/tv-shows" 
-            className={`cursor-pointer hover:text-[#f59f00] transition-colors duration-200 ${
-              isActive('/tv-shows') ? 'text-[#f59f00]' : ''
-            }`}
-          >
-            Tv Shows
-          </Link>
-        </li>
-        <li>
-          <Link 
             to="/movies" 
             className={`cursor-pointer hover:text-[#f59f00] transition-colors duration-200 ${
               isActive('/movies') ? 'text-[#f59f00]' : ''
             }`}
           >
             Movies
+          </Link>
+        </li>
+        <li>
+          <Link 
+            to="/tv-shows" 
+            className={`cursor-pointer hover:text-[#f59f00] transition-colors duration-200 ${
+              isActive('/tv-shows') ? 'text-[#f59f00]' : ''
+            }`}
+          >
+            TV Shows
           </Link>
         </li>
         <li>
@@ -157,12 +156,12 @@ const Navbar = () => {
         </li>
         <li>
           <Link 
-            to="/new-popular" 
+            to="/popular" 
             className={`cursor-pointer hover:text-[#f59f00] transition-colors duration-200 ${
-              isActive('/new-popular') ? 'text-[#f59f00]' : ''
+              isActive('/popular') ? 'text-[#f59f00]' : ''
             }`}
           >
-            New & Popular
+            Popular
           </Link>
         </li>
         <li>

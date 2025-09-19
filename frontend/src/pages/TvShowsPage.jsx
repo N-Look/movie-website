@@ -7,6 +7,7 @@ const TvShowsPage = () => {
       title="TV Shows"
       description="Discover the best TV series and shows"
       category="tv"
+      mediaType="tv"
       apiEndpoint="https://api.themoviedb.org/3/tv/popular?language=en-US"
       showHero={true}
     />
