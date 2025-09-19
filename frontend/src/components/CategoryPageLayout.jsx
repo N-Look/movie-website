@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import MovieGrid from './MovieGrid';
+import CategoryHero from './CategoryHero';
 
 const CategoryPageLayout = ({ 
   title, 
@@ -7,40 +8,49 @@ const CategoryPageLayout = ({
   category, 
   apiEndpoint, 
   showHero = true,
-  heroImage = null,
   mediaType = 'movie'
 }) => {
+  const [trendingImages, setTrendingImages] = useState([]);
+
+  // Fetch trending content for the background
+  useEffect(() => {
+    const fetchTrending = async () => {
+      try {
+        const response = await fetch(
+          `https://api.themoviedb.org/3/trending/${mediaType}/week?api_key=${import.meta.env.VITE_TMDB_API_KEY}`
+        );
+        const data = await response.json();
+        
+        // Get backdrop paths from the first 5 trending items
+        const backdrops = data.results
+          .slice(0, 5)
+          .map(item => item.backdrop_path)
+          .filter(Boolean); // Remove any undefined or null backdrops
+          
+        setTrendingImages(backdrops);
+      } catch (error) {
+        console.error('Error fetching trending content:', error);
+      }
+    };
+
+    fetchTrending();
+  }, [mediaType]);
+
   return (
     <div className="min-h-screen bg-[#181818] text-white">
-      {/* Hero Section */}
+      {/* Hero Section with cycling background */}
       {showHero && (
-        <div className="relative h-[40vh] flex items-center justify-center">
-          {heroImage ? (
-            <div
-              className="absolute inset-0 bg-cover bg-center"
-              style={{
-                backgroundImage: `url(${heroImage})`,
-              }}
-            >
-              <div className="absolute inset-0 bg-gradient-to-t from-[#181818] via-transparent to-transparent"></div>
-            </div>
-          ) : (
-            <div className="absolute inset-0 bg-gradient-to-br from-[#232323] to-[#181818]"></div>
-          )}
-          
-          <div className="relative z-10 text-center px-4">
-            <h1 className="text-4xl md:text-6xl font-bold mb-4">{title}</h1>
-            {description && (
-              <p className="text-xl text-gray-300 max-w-2xl mx-auto">{description}</p>
-            )}
-          </div>
-        </div>
+        <CategoryHero 
+          title={title}
+          description={description}
+          images={trendingImages}
+        />
       )}
 
       {/* Content Section */}
       <div className="p-4 md:p-8">
         <MovieGrid 
-          title={title}
+          title={`${title} ${mediaType === 'tv' ? 'Shows' : 'Movies'}`}
           category={category}
           apiEndpoint={apiEndpoint}
           mediaType={mediaType}

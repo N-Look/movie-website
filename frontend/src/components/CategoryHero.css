@@ -1,0 +1,13 @@
+/* CategoryHero.css */
+
+/* Change active bullet to white */
+.swiper-pagination-bullet-active {
+  background: #ffffff !important;
+}
+
+/* Optional: make inactive bullets gray */
+.swiper-pagination-bullet {
+  background: #666666;
+  opacity: 0.7;
+}
+

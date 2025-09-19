@@ -1,7 +1,13 @@
 import { Play } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
 import MovieGrid from "../components/MovieGrid";
+import { FreeMode } from "swiper/modules";
+
 
 const TvShowPage = () => {
   const { id } = useParams();
@@ -109,7 +115,7 @@ const TvShowPage = () => {
           </div>
           <p className="max-w-3xl text-gray-300 mb-6">{tvShow.overview}</p>
           <div className="flex space-x-4">
-            <button className="bg-white text-black px-6 py-2 rounded font-semibold flex items-center hover:bg-opacity-80 transition">
+            <button className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-6 py-2 rounded font-semibold flex items-center hover:bg-opacity-80 transition">
               <Play className="w-5 h-5 mr-2" /> Play
             </button>
             {trailerKey && (
@@ -130,21 +136,49 @@ const TvShowPage = () => {
       {seasons.length > 0 && (
         <div className="container mx-auto px-4 py-8">
           <h2 className="text-2xl font-bold mb-4">Seasons</h2>
-          <div className="flex space-x-2 mb-6 overflow-x-auto pb-2">
-            {seasons.map((season) => (
-              <button
-                key={season.id}
-                onClick={() => setActiveSeason(season.season_number)}
-                className={`px-4 py-2 rounded ${
-                  activeSeason === season.season_number
-                    ? 'bg-[#e50914] text-white'
-                    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-                }`}
-              >
-                {season.name}
-              </button>
-            ))}
+          <div className="relative px-10">
+            <Swiper
+              modules={[Navigation]}
+              spaceBetween={12}
+              slidesPerView="auto"
+              navigation={{
+                nextEl: '.swiper-button-next-season',
+                prevEl: '.swiper-button-prev-season',
+              }}
+              grabCursor={true}
+              className="mb-6 pb-2"
+            >
+              {seasons.map((season) => (
+                <SwiperSlide key={season.id} style={{ width: "auto" }}>
+                  <button
+                    onClick={() => setActiveSeason(season.season_number)}
+                    className={`px-4 py-2 rounded ${
+                      activeSeason === season.season_number
+                        ? "bg-[#ff8800] text-white"
+                        : "bg-gray-800 text-gray-300 hover:bg-gray-700"
+                    }`}
+                  >
+                    {season.name}
+                  </button>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+            
+            {/* Custom Navigation Buttons */}
+            <button className="swiper-button-prev-season absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-black bg-opacity-70 rounded-full hover:bg-opacity-90 transition-all shadow-lg">
+              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <button className="swiper-button-next-season absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2 z-10 w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-black bg-opacity-70 rounded-full hover:bg-opacity-90 transition-all shadow-lg">
+              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
           </div>
+
+
+
 
           {episodes.length > 0 && (
             <div className="mb-8">
@@ -186,18 +220,7 @@ const TvShowPage = () => {
           )}
         </div>
       )}
-
-      {/* Recommendations */}
-      {recommendations.length > 0 && (
-        <div className="container mx-auto px-4 py-8">
-          <h2 className="text-2xl font-bold mb-6">More Like This</h2>
-          <MovieGrid
-            data={recommendations}
-            mediaType="tv"
-            showTitle={false}
-          />
-        </div>
-      )}
+  
     </div>
   );
 };
