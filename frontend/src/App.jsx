@@ -16,6 +16,8 @@ const AnimePage = lazy(() => import("./pages/AnimePage"));
 const TopRatedPage = lazy(() => import("./pages/TopRatedPage"));
 const PopularPage = lazy(() => import("./pages/PopularPage"));
 const UpcomingPage = lazy(() => import("./pages/UpcomingPage"));
+const WatchMovie = lazy(() => import("./pages/WatchMovie"));
+const WatchTvShow = lazy(() => import("./pages/WatchTvShow"));
 
 const App = () => {
   const { fetchUser, fetchingUser, authMessage } = useAuthStore();
@@ -52,6 +54,9 @@ const App = () => {
           <Route path={'/top-rated'} element={<TopRatedPage />} />
           <Route path={'/popular'} element={<PopularPage />} />
           <Route path={'/upcoming'} element={<UpcomingPage />} />
+          <Route path={'/watch/movie/:id'} element={<WatchMovie />} />
+          <Route path={'/watch/tv/:id'} element={<WatchTvShow />} />
+          <Route path={'/watch/tv/:id/:season/:episode'} element={<WatchTvShow />} />
         </Routes>
       </Suspense>
     </div>
