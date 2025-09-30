@@ -1,6 +1,6 @@
 import { Play } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router";
+import { Link, useParams } from "react-router-dom";
 
 const Moviepage = () => {
   const { id } = useParams();
@@ -87,7 +87,7 @@ const Moviepage = () => {
             </div>
             <p className="max-w-2xl text-gray-200 mb-4">{movie.overview}</p>
             <div className="flex flex-wrap gap-4">
-              <Link to={`/watch/${movie.id}`}>
+              <Link to={`/watch/movie/${movie.id}`}>
                 <button className="flex justify-center items-center bg-gradient-to-r from-yellow-500 to-orange-500 text-white py-3 px-6 rounded-full cursor-pointer text-sm md:text-base hover:opacity-90 transition-opacity">
                   <Play className="mr-2 w-4 h-5 md:w-5 md:h-5" /> Watch Now
                 </button>

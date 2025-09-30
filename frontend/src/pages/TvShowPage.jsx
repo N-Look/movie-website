@@ -1,6 +1,6 @@
 import { Play } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router";
+import { Link, useParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
@@ -115,9 +115,9 @@ const TvShowPage = () => {
           </div>
           <p className="max-w-3xl text-gray-300 mb-6">{tvShow.overview}</p>
           <div className="flex space-x-4">
-            <button className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-6 py-2 rounded font-semibold flex items-center hover:bg-opacity-80 transition">
+            <Link to={`/watch/tv/${id}/1/1`} className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-6 py-2 rounded font-semibold flex items-center hover:bg-opacity-80 transition">
               <Play className="w-5 h-5 mr-2" /> Play
-            </button>
+            </Link>
             {trailerKey && (
               <a
                 href={`https://www.youtube.com/watch?v=${trailerKey}`}
@@ -185,7 +185,7 @@ const TvShowPage = () => {
               <h3 className="text-xl font-semibold mb-4">Episodes</h3>
               <div className="space-y-4">
                 {episodes.map((episode) => (
-                  <div key={episode.id} className="bg-[#2a2a2a] p-4 rounded-lg">
+                  <Link to={`/watch/tv/${id}/${activeSeason}/${episode.episode_number}`} key={episode.id} className="block bg-[#2a2a2a] p-4 rounded-lg hover:bg-[#333333] transition">
                     <div className="flex space-x-4">
                       <div className="w-1/4">
                         <img
@@ -213,7 +213,7 @@ const TvShowPage = () => {
                         </p>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>
