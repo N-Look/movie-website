@@ -43,16 +43,49 @@ const Navbar = () => {
     };
 
     try {
-      const response = await fetch(
-        `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(query)}&language=en-US&page=1`,
-        options
-      );
+      // Determine scope based on current route
+      const path = location.pathname || "/";
+      let scope = "multi"; // default: search both movies and TV
+      if (path.startsWith("/movies")) scope = "movie";
+      else if (path.startsWith("/tv-shows")) scope = "tv";
+
+      const baseUrl =
+        scope === "movie"
+          ? "https://api.themoviedb.org/3/search/movie"
+          : scope === "tv"
+          ? "https://api.themoviedb.org/3/search/tv"
+          : "https://api.themoviedb.org/3/search/multi";
+
+      const url = `${baseUrl}?query=${encodeURIComponent(query)}&language=en-US&page=1&include_adult=true`;
+
+      const response = await fetch(url, options);
       const data = await response.json();
-      setSearchResults(data.results || []);
+
+      const raw = Array.isArray(data.results) ? data.results : [];
+      // Filter non-content in multi and normalize fields for UI
+      const normalized = raw
+        .filter((r) => {
+          const type = scope === "multi" ? r.media_type : scope;
+          return type === "movie" || type === "tv";
+        })
+        .map((r) => {
+          const type = scope === "multi" ? r.media_type : scope;
+          return {
+            __type: type, // 'movie' | 'tv'
+            id: r.id,
+            title: r.title || r.name || "",
+            release_date: r.release_date || r.first_air_date || "",
+            poster_path: r.poster_path || r.profile_path || null,
+            vote_average: r.vote_average,
+            overview: r.overview,
+          };
+        });
+
+      setSearchResults(normalized);
       setShowSearchResults(true);
     } catch (error) {
       console.error("Search error:", error);
-      toast.error("Failed to search movies");
+      toast.error("Failed to search");
     } finally {
       setIsSearching(false);
     }
@@ -185,7 +218,7 @@ const Navbar = () => {
               onChange={handleSearchChange}
               onFocus={() => setShowSearchResults(true)}
               className="bg-[#232323] text-white px-4 py-2 rounded-full min-w-72 pr-12 outline-none border border-[#333333] focus:border-[#f59f00] transition-colors duration-200 placeholder-gray-400"
-              placeholder="Search movies..."
+              placeholder="Search movies & TV..."
             />
             <div className="absolute top-2 right-4 flex items-center space-x-2">
               {isSearching ? (
@@ -204,31 +237,33 @@ const Navbar = () => {
           {/* Search Results Dropdown */}
           {showSearchResults && searchResults.length > 0 && (
             <div className="absolute top-full left-0 right-0 mt-2 bg-[#232323] border border-[#333333] rounded-lg shadow-xl z-50 max-h-96 overflow-y-auto">
-              {searchResults.slice(0, 8).map((movie) => (
-                <Link
-                  key={movie.id}
-                  to={`/movie/${movie.id}`}
-                  onClick={() => {
-                    setShowSearchResults(false);
-                    setSearchQuery("");
-                  }}
-                  className="flex items-center p-3 hover:bg-[#333333] transition-colors duration-200 border-b border-[#333333] last:border-b-0"
-                >
-                  <img
-                    src={`https://image.tmdb.org/t/p/w92${movie.poster_path}`}
-                    alt={movie.title}
-                    className="w-12 h-16 object-cover rounded mr-3"
-                  
-                  />
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-white font-medium text-sm truncate">{movie.title}</h3>
-                    <p className="text-gray-400 text-xs">
-                      {movie.release_date?.slice(0, 4)} • ⭐ {movie.vote_average?.toFixed(1)}
-                    </p>
-                    <p className="text-gray-500 text-xs truncate mt-1">{movie.overview}</p>
-                  </div>
-                </Link>
-              ))}
+              {searchResults.slice(0, 8).map((item) => {
+                const linkTo = item.__type === 'tv' ? `/tv/${item.id}` : `/movie/${item.id}`;
+                return (
+                  <Link
+                    key={`${item.__type}-${item.id}`}
+                    to={linkTo}
+                    onClick={() => {
+                      setShowSearchResults(false);
+                      setSearchQuery("");
+                    }}
+                    className="flex items-center p-3 hover:bg-[#333333] transition-colors duration-200 border-b border-[#333333] last:border-b-0"
+                  >
+                    <img
+                      src={item.poster_path ? `https://image.tmdb.org/t/p/w92${item.poster_path}` : `https://via.placeholder.com/92x138?text=No+Image`}
+                      alt={item.title}
+                      className="w-12 h-16 object-cover rounded mr-3"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-white font-medium text-sm truncate">{item.title}</h3>
+                      <p className="text-gray-400 text-xs">
+                        {(item.release_date || '').slice(0, 4)} • ⭐ {item.vote_average?.toFixed(1)}
+                      </p>
+                      <p className="text-gray-500 text-xs truncate mt-1">{item.overview}</p>
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
           )}
         </div>
