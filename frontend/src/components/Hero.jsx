@@ -43,11 +43,11 @@ const Hero = () => {
       </div>
 
       <div className="flex space-x-2 md:space-x-4 absolute bottom-3 left-4 md:bottom-8 md:left-10 font-medium">
-        <button className="flex justify-center items-center bg-white  hover:bg-gray-200 text-[#ff5100] py-3 px-4 rounded-full cursor-pointer text-sm md:text-base">
+        <button className="flex justify-center items-center bg-white/90 backdrop-blur-sm hover:bg-white text-purple-600 py-3 px-6 rounded-2xl cursor-pointer text-sm md:text-base font-medium shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
           <Bookmark className="mr-2 w-4 h-5 md:w-5 md:h-5" /> Save for Later
         </button>
         <Link to={`/movie/${movie.id}`}>
-<button className="flex justify-center items-center bg-gradient-to-r from-yellow-500 to-orange-500  text-white py-3 px-4 rounded-full cursor-pointer text-sm md:text-base">
+<button className="flex justify-center items-center bg-gradient-to-r from-blue-500 to-purple-500 text-white py-3 px-6 rounded-2xl cursor-pointer text-sm md:text-base font-medium shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-105 transition-all duration-300">
           <Play className="mr-2 w-4 h-5 md:w-5 md:h-5" /> Watch Now
         </button>
         </Link>

@@ -79,7 +79,7 @@ const TvShowPage = () => {
   if (!tvShow) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <div className="w-16 h-16 border-4 border-dashed rounded-full animate-spin border-[#e50914]"></div>
+        <div className="w-16 h-16 border-4 border-dashed rounded-full animate-spin border-purple-500"></div>
       </div>
     );
   }
@@ -115,7 +115,7 @@ const TvShowPage = () => {
           </div>
           <p className="max-w-3xl text-gray-300 mb-6">{tvShow.overview}</p>
           <div className="flex space-x-4">
-            <Link to={`/watch/tv/${id}/1/1`} className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-6 py-2 rounded font-semibold flex items-center hover:bg-opacity-80 transition">
+            <Link to={`/watch/tv/${id}/1/1`} className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-6 py-3 rounded-2xl font-semibold flex items-center shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-105 transition-all duration-300">
               <Play className="w-5 h-5 mr-2" /> Play
             </Link>
             {trailerKey && (
@@ -123,7 +123,7 @@ const TvShowPage = () => {
                 href={`https://www.youtube.com/watch?v=${trailerKey}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-gray-600 bg-opacity-70 text-white px-6 py-2 rounded font-semibold flex items-center hover:bg-opacity-50 transition"
+                className="bg-white/10 backdrop-blur-sm text-white px-6 py-3 rounded-2xl font-semibold flex items-center border border-white/10 hover:bg-white/20 hover:scale-105 transition-all duration-300"
               >
                 <Play className="w-5 h-5 mr-2" /> Trailer
               </a>
@@ -152,10 +152,10 @@ const TvShowPage = () => {
                 <SwiperSlide key={season.id} style={{ width: "auto" }}>
                   <button
                     onClick={() => setActiveSeason(season.season_number)}
-                    className={`px-4 py-2 rounded ${
+                    className={`px-5 py-2.5 rounded-2xl transition-all duration-300 ${
                       activeSeason === season.season_number
-                        ? "bg-[#ff8800] text-white"
-                        : "bg-gray-800 text-gray-300 hover:bg-gray-700"
+                        ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg shadow-purple-500/30"
+                        : "bg-white/5 text-gray-300 hover:bg-white/10 border border-white/10"
                     }`}
                   >
                     {season.name}
@@ -185,7 +185,7 @@ const TvShowPage = () => {
               <h3 className="text-xl font-semibold mb-4">Episodes</h3>
               <div className="space-y-4">
                 {episodes.map((episode) => (
-                  <Link to={`/watch/tv/${id}/${activeSeason}/${episode.episode_number}`} key={episode.id} className="block bg-[#2a2a2a] p-4 rounded-lg hover:bg-[#333333] transition">
+                  <Link to={`/watch/tv/${id}/${activeSeason}/${episode.episode_number}`} key={episode.id} className="block bg-white/5 backdrop-blur-sm p-4 rounded-2xl hover:bg-white/10 transition-all duration-300 border border-white/5 hover:border-white/10">
                     <div className="flex space-x-4">
                       <div className="w-1/4">
                         <img

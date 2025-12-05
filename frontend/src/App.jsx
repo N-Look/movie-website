@@ -31,7 +31,7 @@ const App = () => {
   if (fetchingUser) {
     return (
       <div className="flex flex-col justify-center items-center h-screen bg-black">
-        <div className="w-16 h-16 border-4 border-dashed rounded-full animate-spin border-[#e50914]"></div>
+        <div className="w-16 h-16 border-4 border-dashed rounded-full animate-spin border-purple-500"></div>
         <p className="text-white text-lg mt-4">{authMessage || 'Loading...'}</p>
       </div>
     );
@@ -40,7 +40,7 @@ const App = () => {
     <div>
       <Toaster/>
       <Navbar />
-      <Suspense fallback={<div className="flex justify-center items-center h-screen"><p className="text-[#e50914]">Loading...</p></div>}>
+      <Suspense fallback={<div className="flex justify-center items-center h-screen"><p className="text-purple-500">Loading...</p></div>}>
         <Routes>
           <Route path={'/'} element={<Homepage />} />
           <Route path={'/movie/:id'} element={<Moviepage />} />

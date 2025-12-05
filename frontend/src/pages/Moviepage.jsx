@@ -80,7 +80,7 @@ const Moviepage = () => {
             </div>
             <div className="flex flex-wrap gap-2 mb-4">
               {movie.genres.map((genre) => (
-                <span className="bg-gray-800 px-3 py-1 rounded-full text-sm">
+                <span className="bg-white/10 backdrop-blur-sm px-4 py-1.5 rounded-2xl text-sm border border-white/10">
                   {genre.name}
                 </span>
               ))}
@@ -88,7 +88,7 @@ const Moviepage = () => {
             <p className="max-w-2xl text-gray-200 mb-4">{movie.overview}</p>
             <div className="flex flex-wrap gap-4">
               <Link to={`/watch/movie/${movie.id}`}>
-                <button className="flex justify-center items-center bg-gradient-to-r from-yellow-500 to-orange-500 text-white py-3 px-6 rounded-full cursor-pointer text-sm md:text-base hover:opacity-90 transition-opacity">
+                <button className="flex justify-center items-center bg-gradient-to-r from-blue-500 to-purple-500 text-white py-3 px-6 rounded-2xl cursor-pointer text-sm md:text-base font-medium shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-105 transition-all duration-300">
                   <Play className="mr-2 w-4 h-5 md:w-5 md:h-5" /> Watch Now
                 </button>
               </Link>
@@ -97,7 +97,7 @@ const Moviepage = () => {
                   href={`https://www.youtube.com/watch?v=${trailerKey}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex justify-center items-center bg-gray-700 text-white py-3 px-6 rounded-full cursor-pointer text-sm md:text-base hover:bg-gray-600 transition-colors"
+                  className="flex justify-center items-center bg-white/10 backdrop-blur-sm text-white py-3 px-6 rounded-2xl cursor-pointer text-sm md:text-base font-medium border border-white/10 hover:bg-white/20 hover:scale-105 transition-all duration-300"
                 >
                   <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
@@ -112,7 +112,7 @@ const Moviepage = () => {
 
       <div className="p-8">
         <h2 className="text-2xl font-semibold mb-4">Details</h2>
-        <div className="bg-[#232323] rounded-lg shadow-lg p-6 flex flex-col md:flex-row gap-8">
+        <div className="bg-white/5 backdrop-blur-sm rounded-3xl shadow-xl p-6 flex flex-col md:flex-row gap-8 border border-white/5">
           <div className="flex-1">
             <ul className="text-gray-300 space-y-3">
               <li>
@@ -206,7 +206,7 @@ const Moviepage = () => {
             {recommendations.slice(0, 10).map((rec) => (
               <div
                 key={rec.id}
-                className="bg-[#232323] rounded-lg overflow-hidden hover:scale-105 transition"
+                className="bg-white/5 backdrop-blur-sm rounded-2xl overflow-hidden hover:scale-105 transition-all duration-300 border border-white/5 hover:border-white/10"
               >
                 <Link to={`/movie/${rec.id}`}>
                   <img

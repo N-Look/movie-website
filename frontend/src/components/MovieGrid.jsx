@@ -56,7 +56,7 @@ const MovieGrid = ({ title, category, apiEndpoint, showTitle = true, mediaType =
   if (loading && data.length === 0) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="w-8 h-8 border-2 border-[#f59f00] border-t-transparent rounded-full animate-spin"></div>
+        <div className="w-8 h-8 border-2 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -87,7 +87,7 @@ const MovieGrid = ({ title, category, apiEndpoint, showTitle = true, mediaType =
           return (
             <div
               key={item.id}
-              className="bg-[#232323] rounded-lg overflow-hidden hover:scale-105 transition-transform duration-300 group"
+              className="bg-white/5 backdrop-blur-sm rounded-3xl overflow-hidden hover:scale-105 hover:bg-white/10 transition-all duration-300 group border border-white/5 hover:border-white/10 shadow-lg hover:shadow-xl"
             >
               <Link to={`/${mediaType === 'tv' ? 'tv' : 'movie'}/${item.id}`}>
                 <div className="relative group">
@@ -144,7 +144,7 @@ const MovieGrid = ({ title, category, apiEndpoint, showTitle = true, mediaType =
           <button
             onClick={loadMore}
             disabled={loading}
-            className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-8 py-3 rounded-full font-medium hover:opacity-90 transition-opacity disabled:opacity-50"
+            className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-8 py-3.5 rounded-2xl font-medium shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:hover:scale-100"
           >
             {loading ? 'Loading...' : 'Load More'}
           </button>

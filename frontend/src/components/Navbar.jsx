@@ -127,7 +127,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-black text-gray-200 flex justify-between items-center p-4 h-20 text-sm md:text-[15px] font-medium text-nowrap">
+    <nav className="bg-black/80 backdrop-blur-xl text-gray-200 flex justify-between items-center p-4 h-20 text-sm md:text-[15px] font-medium text-nowrap sticky top-0 z-50 border-b border-white/5">
       <Link to={"/"}>
         <img
           src={Logo}
@@ -140,8 +140,8 @@ const Navbar = () => {
         <li>
           <Link 
             to="/" 
-            className={`cursor-pointer hover:text-[#f59f00] transition-colors duration-200 ${
-              isActive('/') ? 'text-[#f59f00]' : ''
+            className={`cursor-pointer hover:text-purple-400 transition-colors duration-200 ${
+              isActive('/') ? 'text-purple-400' : ''
             }`}
           >
             Home
@@ -150,8 +150,8 @@ const Navbar = () => {
         <li>
           <Link 
             to="/movies" 
-            className={`cursor-pointer hover:text-[#f59f00] transition-colors duration-200 ${
-              isActive('/movies') ? 'text-[#f59f00]' : ''
+            className={`cursor-pointer hover:text-purple-400 transition-colors duration-200 ${
+              isActive('/movies') ? 'text-purple-400' : ''
             }`}
           >
             Movies
@@ -160,8 +160,8 @@ const Navbar = () => {
         <li>
           <Link 
             to="/tv-shows" 
-            className={`cursor-pointer hover:text-[#f59f00] transition-colors duration-200 ${
-              isActive('/tv-shows') ? 'text-[#f59f00]' : ''
+            className={`cursor-pointer hover:text-purple-400 transition-colors duration-200 ${
+              isActive('/tv-shows') ? 'text-purple-400' : ''
             }`}
           >
             TV Shows
@@ -170,8 +170,8 @@ const Navbar = () => {
         <li>
           <Link 
             to="/anime" 
-            className={`cursor-pointer hover:text-[#f59f00] transition-colors duration-200 ${
-              isActive('/anime') ? 'text-[#f59f00]' : ''
+            className={`cursor-pointer hover:text-purple-400 transition-colors duration-200 ${
+              isActive('/anime') ? 'text-purple-400' : ''
             }`}
           >
             Anime
@@ -180,8 +180,8 @@ const Navbar = () => {
         <li>
           <Link 
             to="/top-rated" 
-            className={`cursor-pointer hover:text-[#f59f00] transition-colors duration-200 ${
-              isActive('/top-rated') ? 'text-[#f59f00]' : ''
+            className={`cursor-pointer hover:text-purple-400 transition-colors duration-200 ${
+              isActive('/top-rated') ? 'text-purple-400' : ''
             }`}
           >
             Top Rated
@@ -190,8 +190,8 @@ const Navbar = () => {
         <li>
           <Link 
             to="/popular" 
-            className={`cursor-pointer hover:text-[#f59f00] transition-colors duration-200 ${
-              isActive('/popular') ? 'text-[#f59f00]' : ''
+            className={`cursor-pointer hover:text-purple-400 transition-colors duration-200 ${
+              isActive('/popular') ? 'text-purple-400' : ''
             }`}
           >
             Popular
@@ -200,8 +200,8 @@ const Navbar = () => {
         <li>
           <Link 
             to="/upcoming" 
-            className={`cursor-pointer hover:text-[#f59f00] transition-colors duration-200 ${
-              isActive('/upcoming') ? 'text-[#f59f00]' : ''
+            className={`cursor-pointer hover:text-purple-400 transition-colors duration-200 ${
+              isActive('/upcoming') ? 'text-purple-400' : ''
             }`}
           >
             Upcoming
@@ -217,12 +217,12 @@ const Navbar = () => {
               value={searchQuery}
               onChange={handleSearchChange}
               onFocus={() => setShowSearchResults(true)}
-              className="bg-[#232323] text-white px-4 py-2 rounded-full min-w-72 pr-12 outline-none border border-[#333333] focus:border-[#f59f00] transition-colors duration-200 placeholder-gray-400"
+              className="bg-white/5 text-white px-5 py-2.5 rounded-2xl min-w-72 pr-12 outline-none border border-white/10 focus:border-purple-500 focus:bg-white/10 transition-all duration-300 placeholder-gray-500"
               placeholder="Search movies & TV..."
             />
             <div className="absolute top-2 right-4 flex items-center space-x-2">
               {isSearching ? (
-                <div className="w-5 h-5 border-2 border-[#f59f00] border-t-transparent rounded-full animate-spin"></div>
+                <div className="w-5 h-5 border-2 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
               ) : searchQuery ? (
                 <X 
                   className="w-5 h-5 text-gray-400 hover:text-white cursor-pointer" 
@@ -236,7 +236,7 @@ const Navbar = () => {
           
           {/* Search Results Dropdown */}
           {showSearchResults && searchResults.length > 0 && (
-            <div className="absolute top-full left-0 right-0 mt-2 bg-[#232323] border border-[#333333] rounded-lg shadow-xl z-50 max-h-96 overflow-y-auto">
+            <div className="absolute top-full left-0 right-0 mt-3 bg-black/90 backdrop-blur-2xl border border-white/10 rounded-3xl shadow-2xl z-50 max-h-96 overflow-y-auto">
               {searchResults.slice(0, 8).map((item) => {
                 const linkTo = item.__type === 'tv' ? `/tv/${item.id}` : `/movie/${item.id}`;
                 return (
@@ -247,7 +247,7 @@ const Navbar = () => {
                       setShowSearchResults(false);
                       setSearchQuery("");
                     }}
-                    className="flex items-center p-3 hover:bg-[#333333] transition-colors duration-200 border-b border-[#333333] last:border-b-0"
+                    className="flex items-center p-3 hover:bg-white/10 transition-all duration-200 rounded-xl border-b border-white/5 last:border-b-0"
                   >
                     <img
                       src={item.poster_path ? `https://image.tmdb.org/t/p/w92${item.poster_path}` : `https://via.placeholder.com/92x138?text=No+Image`}
@@ -269,14 +269,14 @@ const Navbar = () => {
         </div>
     
         <Link to={user ? "ai-recommendations" : "signin"}>
-          <button className="bg-gradient-to-r from-yellow-500 to-orange-500 px-5 py-2 rounded-[8px] text-white cursor-pointer">
+          <button className="bg-gradient-to-r from-blue-500 to-purple-500 px-5 py-2.5 rounded-2xl text-white cursor-pointer shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:scale-105 transition-all duration-300">
             Get AI Movie Picks
           </button>
         </Link>
 
         {!user ? (
           <Link to={"/signin"}>
-            <button className="border border-[#333333] rounded-[8px] py-2 px-4 cursor-pointer">
+            <button className="border border-white/20 rounded-2xl py-2.5 px-5 cursor-pointer bg-white/5 hover:bg-white/10 backdrop-blur-sm transition-all duration-300">
               Sign In
             </button>
           </Link>
@@ -285,12 +285,12 @@ const Navbar = () => {
             <img
               src={avatarUrl}
               alt=""
-              className="w-10 h-10 rounded-full border-2 border-[#e50914] cursor-pointer"
+              className="w-10 h-10 rounded-2xl border-2 border-purple-500/50 cursor-pointer hover:border-purple-400 transition-all duration-300 shadow-lg"
               onClick={() => setShowMenu(!showMenu)}
             />
 
             {showMenu && (
-              <div className="absolute right-0 mt-2 w-64 bg-[#232323] bg-opacity-95 rounded-lg z-50 shadow-lg py-4 px-3 flex flex-col gap-2 border border-[#333333]">
+              <div className="absolute right-0 mt-3 w-64 bg-black/80 backdrop-blur-2xl rounded-3xl z-50 shadow-2xl py-5 px-4 flex flex-col gap-2 border border-white/10">
                 <div className="flex flex-col items-center mb-2">
                   <span className="text-white font-semibold text-base">
                     {user.username}
@@ -298,19 +298,19 @@ const Navbar = () => {
                   <span className="text-xs text-gray-400">{user.email}</span>
                 </div>
 
-                <button className="flex items-center px-4 py-3 rounded-lg text-white bg-[#181818] hover:bg-[#1d1c1c] gap-3 cursor-pointer">
+                <button className="flex items-center px-4 py-3 rounded-2xl text-white bg-white/5 hover:bg-white/10 gap-3 cursor-pointer transition-all duration-200">
                   <HelpCircle className="w-5 h-5" />
                   Help Center
                 </button>
 
-                <button className="flex items-center px-4 py-3 rounded-lg text-white bg-[#181818] hover:bg-[#1d1c1c] gap-3 cursor-pointer">
+                <button className="flex items-center px-4 py-3 rounded-2xl text-white bg-white/5 hover:bg-white/10 gap-3 cursor-pointer transition-all duration-200">
                   <Settings className="w-5 h-5" />
                   Settings
                 </button>
 
                 <button
                   onClick={handleLogout}
-                  className="flex items-center px-4 py-3 rounded-lg text-white bg-[#181818] hover:bg-[#1d1c1c] gap-3 cursor-pointer"
+                  className="flex items-center px-4 py-3 rounded-2xl text-white bg-white/5 hover:bg-white/10 gap-3 cursor-pointer transition-all duration-200"
                 >
                   <LogOut className="w-5 h-5" />
                   Log Out
