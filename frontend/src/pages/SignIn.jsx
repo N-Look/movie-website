@@ -5,7 +5,7 @@ import { toast } from 'react-hot-toast';
 
 const SignIn = () => {
     const navigate = useNavigate();
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const {login, isLoading, error} = useAuthStore();
 
@@ -13,7 +13,7 @@ const SignIn = () => {
         e.preventDefault();
         // Handle sign in logic here
         try {
-            const {message} = await login(username, password);
+            const {message} = await login(email, password);
             toast.success(message);
             navigate('/');
         } catch (error) {
@@ -31,8 +31,8 @@ return (
             <h1 className='text-3xl font-medium text-white mb-7'>Sign In</h1>
 
             <form onSubmit={handleLogin} className='flex flex-col space-y-4'>
-                <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="username" className="w-full h-[50px] bg-white/10 text-white rounded-2xl px-5 text-base border border-white/10 focus:border-purple-500 focus:bg-white/15 outline-none transition-all duration-300" />
-                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="password" className="w-full h-[50px] bg-white/10 text-white rounded-2xl px-5 text-base border border-white/10 focus:border-purple-500 focus:bg-white/15 outline-none transition-all duration-300"/>
+                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email address" className="w-full h-[50px] bg-[#333] text-white rounded px-5 text-base" />
+                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" className="w-full h-[50px] bg-[#333] text-white rounded px-5 text-base"/>
 
                 {error && <p className='text-red-500'>{error}</p>}
 

@@ -1,17 +1,8 @@
 import { create } from "zustand";
-import axios from "axios";
+import { supabase } from "../lib/supabase";
 
-const API_URL = "https://aiflix-6ual.onrender.com/api";
-
-// Create a dedicated Axios instance with timeout
-const api = axios.create({
-  baseURL: API_URL,
-  withCredentials: true,
-  timeout: 8000, // 8 second timeout
-});
-
-export const useAuthStore = create((set) => ({
-  // initial states
+export const useAuthStore = create((set, get) => ({
+  // Initial states
   user: null,
   isLoading: false,
   error: null,
@@ -19,66 +10,105 @@ export const useAuthStore = create((set) => ({
   fetchingUser: true,
   authMessage: null,
 
-  // functions
-
+  // Sign up with email and password
   signup: async (username, email, password) => {
-    set({ isLoading: true, message: null, authMessage: "Signing up..." });
+    set({ isLoading: true, error: null, authMessage: "Creating account..." });
 
     try {
-      const response = await api.post(`/signup`, {
-        username,
+      // Sign up with Supabase Auth
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            username: username, // Store username in user metadata
+          },
+        },
+      });
+
+      if (error) throw error;
+
+      // Format user object to match previous structure
+      const user = data.user ? {
+        id: data.user.id,
+        email: data.user.email,
+        username: data.user.user_metadata?.username || username,
+      } : null;
+
+      set({
+        user,
+        isLoading: false,
+        error: null,
+        authMessage: null,
+      });
+
+      return { user, message: "Account created successfully!" };
+    } catch (error) {
+      set({
+        isLoading: false,
+        error: error.message || "Error signing up",
+        authMessage: null,
+      });
+      throw error;
+    }
+  },
+
+  // Login with email and password
+  login: async (email, password) => {
+    set({ isLoading: true, error: null, authMessage: "Logging in..." });
+
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
-      set({ user: response.data.user, isLoading: false, authMessage: null });
-    } catch (error) {
-      set({
-        isLoading: false,
-        error: error?.response?.data?.message || "Error Signing up",
-        authMessage: null,
-      });
+      if (error) throw error;
 
-      throw error;
-    }
-  },
-
-  login: async (username, password) => {
-    set({ isLoading: true, message: null, error: null, authMessage: "Logging in..." });
-
-    try {
-      const response = await api.post(`/login`, {
-        username,
-        password,
-      });
-
-      const { user, message } = response.data;
+      const user = data.user ? {
+        id: data.user.id,
+        email: data.user.email,
+        username: data.user.user_metadata?.username || data.user.email?.split('@')[0],
+      } : null;
 
       set({
         user,
-        message,
         isLoading: false,
+        error: null,
         authMessage: null,
       });
 
-      return { user, message };
+      return { user, message: "Logged in successfully!" };
     } catch (error) {
       set({
         isLoading: false,
-        error: error?.response?.data?.message || "Error logging in",
+        error: error.message || "Error logging in",
         authMessage: null,
       });
-
       throw error;
     }
   },
 
+  // Fetch current user session
   fetchUser: async () => {
-    set({ fetchingUser: true, error: null, authMessage: "Fetching user..." });
+    set({ fetchingUser: true, error: null, authMessage: "Loading..." });
 
     try {
-      const response = await api.get(`/fetch-user`);
-      set({ user: response.data.user, fetchingUser: false, authMessage: null });
+      const { data: { session }, error } = await supabase.auth.getSession();
+
+      if (error) throw error;
+
+      if (session?.user) {
+        const user = {
+          id: session.user.id,
+          email: session.user.email,
+          username: session.user.user_metadata?.username || session.user.email?.split('@')[0],
+        };
+
+        set({ user, fetchingUser: false, authMessage: null });
+      } else {
+        set({ user: null, fetchingUser: false, authMessage: null });
+      }
     } catch (error) {
       set({
         fetchingUser: false,
@@ -86,32 +116,34 @@ export const useAuthStore = create((set) => ({
         user: null,
         authMessage: null,
       });
-      // Don't throw to prevent unhandled promise rejections
     }
   },
 
+  // Logout
   logout: async () => {
-    set({ isLoading: true, error: null, message: null, authMessage: "Logging out..." });
+    set({ isLoading: true, error: null, authMessage: "Logging out..." });
 
     try {
-      const response = await api.post(`/logout`);
-      const { message } = response.data;
+      const { error } = await supabase.auth.signOut();
+
+      if (error) throw error;
+
       set({
-        message,
-        isLoading: false,
         user: null,
+        isLoading: false,
         error: null,
+        message: "Logged out successfully",
+        authMessage: null,
       });
 
-      return { message };
+      return { message: "Logged out successfully" };
     } catch (error) {
       set({
         isLoading: false,
-        error: error?.response?.data?.message || "Error logging out",
+        error: error.message || "Error logging out",
+        authMessage: null,
       });
-
       throw error;
     }
   },
-
 }));
