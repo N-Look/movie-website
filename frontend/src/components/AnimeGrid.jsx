@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { Play, Star, Calendar } from 'lucide-react';
 
 // GraphQL query to fetch trending/popular anime
@@ -32,6 +32,8 @@ const AnimeGrid = ({ title = 'Anime', showTitle = true, sort = ['TRENDING_DESC']
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+  const observerRef = useRef();
+  const loadMoreRef = useRef();
 
   const fetchPage = async (pageNum = 1, append = false) => {
     try {
@@ -89,11 +91,34 @@ const AnimeGrid = ({ title = 'Anime', showTitle = true, sort = ['TRENDING_DESC']
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(sort)]);
 
-  const loadMore = () => {
+  const loadMore = useCallback(() => {
+    if (loading || !hasMore) return;
     const nextPage = page + 1;
     setPage(nextPage);
     fetchPage(nextPage, true);
-  };
+  }, [loading, hasMore, page]);
+
+  // Infinite scroll observer
+  useEffect(() => {
+    if (observerRef.current) observerRef.current.disconnect();
+    
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasMore && !loading) {
+          loadMore();
+        }
+      },
+      { threshold: 0.1, rootMargin: '100px' }
+    );
+
+    if (loadMoreRef.current) {
+      observerRef.current.observe(loadMoreRef.current);
+    }
+
+    return () => {
+      if (observerRef.current) observerRef.current.disconnect();
+    };
+  }, [hasMore, loading, loadMore]);
 
   if (loading && items.length === 0) {
     return (
@@ -164,17 +189,18 @@ const AnimeGrid = ({ title = 'Anime', showTitle = true, sort = ['TRENDING_DESC']
         ))}
       </div>
 
-      {hasMore && (
-        <div className="text-center mt-8">
-          <button
-            onClick={loadMore}
-            disabled={loading}
-            className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-8 py-3.5 rounded-2xl font-medium shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:hover:scale-100"
-          >
-            {loading ? 'Loading...' : 'Load More'}
-          </button>
-        </div>
-      )}
+      {/* Infinite scroll trigger */}
+      <div ref={loadMoreRef} className="h-20 flex items-center justify-center">
+        {loading && items.length > 0 && (
+          <div className="flex items-center gap-3">
+            <div className="w-6 h-6 border-2 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+            <span className="text-gray-400">Loading more...</span>
+          </div>
+        )}
+        {!hasMore && items.length > 0 && (
+          <span className="text-gray-500">You've reached the end</span>
+        )}
+      </div>
     </div>
   );
 };
