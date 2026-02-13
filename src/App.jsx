@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar";
 import { Toaster } from "react-hot-toast";
 import { useAuthStore } from "./store/authStore";
 import { useEffect, lazy, Suspense } from "react";
+import { Analytics } from "@vercel/analytics/react";
 
 const Homepage = lazy(() => import("./pages/Homepage"));
 const MovieDetails = lazy(() => import("./pages/MovieDetails"));
@@ -59,6 +60,7 @@ const App = () => {
           <Route path={'/watch/tv/:id/:season/:episode'} element={<WatchTvShow />} />
         </Routes>
       </Suspense>
+      <Analytics />
     </div>
   )
 }
