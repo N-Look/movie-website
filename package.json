@@ -10,10 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@google/genai": "^1.16.0",
     "@supabase/supabase-js": "^2.47.0",
+    "@google/genai": "^1.16.0",
     "@tailwindcss/vite": "^4.1.12",
-    "@vercel/analytics": "^1.6.1",
     "axios": "^1.11.0",
     "lucide-react": "^0.542.0",
     "react": "^19.1.1",
